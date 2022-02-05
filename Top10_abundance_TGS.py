@@ -55,9 +55,12 @@ with open (path + file_name_taxa, 'r') as taxas :
         taxa_dict.update({ otu_taxa_id : [] }) 
         
         tmps = line.split('\t')[2].split(';')
+        # if len(tmps)>5 :
+        #     tmps[-2] =  tmps[-3] +' '+ tmps[-2]
         for tmp in tmps :
             if tmp != '\n' :
                 taxa_dict[otu_taxa_id].append(re.sub(r'\([^)]*\)','',tmp))  #階層
+                
     del taxa_dict['OTU']
 
 '''輸入 START'''    
@@ -121,16 +124,14 @@ for sample_name in sample_names : #樣本
                 0
                 )            
     a+=1
-# earnings={
-#     "January":[10,20,15,18,14],
-#     "February":[20,13,10,18,15],
-#     "March":[20,20,10,15,18],
-# }
+
 
 df=pd.DataFrame(plot_dict,index=sample_names)
 
 df.plot(kind="bar",stacked=True,figsize=(10,8))
-plt.legend(loc="lower left",bbox_to_anchor=(0.8,1.0))
+plt.legend(loc="upper left",bbox_to_anchor=(1.05, 1.0))
+# plt.legend(loc="upper left")
+
 plt.show()
 # '''畫圖拉 END''' 
 # print(str(sample_name_counts) + "//" + str(hierarchy))

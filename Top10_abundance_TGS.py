@@ -8,6 +8,7 @@ import re
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
+# import matplotlib.colors as colors
 
 def single_dict (sample_name, hierarchy)   :  
     a = 0
@@ -24,9 +25,10 @@ def single_dict (sample_name, hierarchy)   :
                     })
         a+=1  
     return target_dict
-path = 'C:/Users/zhaoqi/Downloads/fire_ant_results (2)/fire_ant/'
+path = './fire_ants/'
 file_name = 'fire_ant.opti_mcc(1).shared'
 file_name = 'fire_ant.opti_mcc.shared'
+file_name = 'fire_ant.opti_mcc_avg.shared'
 
 sample_dict = {}
 with open (path + file_name, 'r') as otu_abundances:
@@ -55,8 +57,8 @@ with open (path + file_name_taxa, 'r') as taxas :
         taxa_dict.update({ otu_taxa_id : [] }) 
         
         tmps = line.split('\t')[2].split(';')
-        # if len(tmps)>5 :
-        #     tmps[-2] =  tmps[-3] +' '+ tmps[-2]
+        if len(tmps)>5 :
+            tmps[-2] =  tmps[-3].strip('g__') +' '+ tmps[-2].strip('s__5')
         for tmp in tmps :
             if tmp != '\n' :
                 taxa_dict[otu_taxa_id].append(re.sub(r'\([^)]*\)','',tmp))  #階層
@@ -102,37 +104,52 @@ for key in rank_dict.keys() :
 # print(Top_10_array) 
 '''取得Top10 END'''
     
-'''畫圖拉 START''' 
+'''準備圖要的格式 START''' 
 # employees=["Rudra","Alok","Prince","Nayan","Reman"]
 plot_dict = {}
 for Top10 in Top_10_array :   #把前十名的物種秀出
     plot_dict.update({
         Top10 : []
         })
-        
 #把每一個物種的各豐富度秀出
 a = 0
-for sample_name in sample_names : #樣本
+for each_sample_name in sample_names : #樣本
 
-    for Top10 in Top_10_array : #物種
+    for each_Top10_species in Top_10_array : #物種
         try :
-            plot_dict[Top10].append(
-                pre_plot_dict[sample_name][Top10]/total_sample_counts[a]
+            plot_dict[each_Top10_species].append(
+                round(pre_plot_dict[each_sample_name][each_Top10_species]/total_sample_counts[a],2)
                 )
+            # plot_dict['Others'].append(
+                
+            #     )
         except :
-            plot_dict[Top10].append(
+            plot_dict[each_Top10_species].append(
                 0
                 )            
     a+=1
-
-
+'''準備圖要的格式 END'''
+'''增加Others START''' 
+plot_dict.update({'Others' : []})        
+for i in range(len(sample_names)) :
+    total_abundance = 0
+    # print(i)
+    for each_Top10_species in Top_10_array :
+        total_abundance += plot_dict[each_Top10_species][i]
+    plot_dict['Others'].append(1-total_abundance)  
+'''增加Others END'''     
+    
 df=pd.DataFrame(plot_dict,index=sample_names)
+# custom_colors = "rgcbyrgcbyy"
 
-df.plot(kind="bar",stacked=True,figsize=(10,8))
-plt.legend(loc="upper left",bbox_to_anchor=(1.05, 1.0))
+df.plot(kind="bar",stacked=True,figsize=(10,8), colormap= 'tab20')
+plt.legend(loc="upper left",bbox_to_anchor=(1.05, 1.0), fontsize="x-large")
 # plt.legend(loc="upper left")
 
 plt.show()
+
+
+    
 # '''畫圖拉 END''' 
 # print(str(sample_name_counts) + "//" + str(hierarchy))
 # print(sample_name)

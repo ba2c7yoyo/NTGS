@@ -27,7 +27,7 @@ def single_dict (sample_name, hierarchy)   :
     return target_dict
 path = './fire_ants/'
 file_name = 'fire_ant.opti_mcc(1).shared'
-file_name = 'fire_ant.opti_mcc.shared'
+#file_name = 'fire_ant.opti_mcc.shared'
 file_name = 'fire_ant.opti_mcc_avg.shared'
 
 sample_dict = {}

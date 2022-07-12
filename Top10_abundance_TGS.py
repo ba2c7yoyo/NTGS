@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb  1 13:12:48 2022
-
 @author: ZHAOQI
 """
 import re
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
-# import matplotlib.colors as colors
+
+path = './'
+file_name = 'fire_ant.opti_mcc_avg.shared'
+file_name_taxa = 'fire_ant.opti_mcc.0.01.cons.taxonomy'
+int_topN = 15 #決定TopN
 
 def single_dict (sample_name, hierarchy)   :  
     a = 0
@@ -25,10 +28,7 @@ def single_dict (sample_name, hierarchy)   :
                     })
         a+=1  
     return target_dict
-path = './fire_ants/'
-file_name = 'fire_ant.opti_mcc(1).shared'
-#file_name = 'fire_ant.opti_mcc.shared'
-file_name = 'fire_ant.opti_mcc_avg.shared'
+
 
 sample_dict = {}
 with open (path + file_name, 'r') as otu_abundances:
@@ -47,8 +47,6 @@ with open (path + file_name, 'r') as otu_abundances:
                 "otu_id" : otu_id
             })
     
-file_name_taxa = 'fire_ant.opti_mcc.0.01(1).cons.taxonomy'
-file_name_taxa = 'fire_ant.opti_mcc.0.01.cons.taxonomy'
 
 taxa_dict = {}
 with open (path + file_name_taxa, 'r') as taxas :
@@ -63,7 +61,7 @@ with open (path + file_name_taxa, 'r') as taxas :
             if tmp != '\n' :
                 taxa_dict[otu_taxa_id].append(re.sub(r'\([^)]*\)','',tmp))  #階層
                 
-    del taxa_dict['OTU']
+    # del taxa_dict['OTU']
 
 '''輸入 START'''    
 sample_name_counts = int(input("Sample_name_counts ?"))
@@ -95,7 +93,7 @@ rank_dict = {k: v for k, v in sorted(prerank_dict.items(), key=lambda item: item
 Top_10_array = []
 a = 0
 for key in rank_dict.keys() :
-    if a >= 10 :
+    if a >= int_topN :
         break
     else :
         Top_10_array.append(key)
@@ -147,13 +145,10 @@ plt.legend(loc="upper left",bbox_to_anchor=(1.05, 1.0), fontsize="x-large")
 # plt.legend(loc="upper left")
 
 plt.show()
-
-
     
 # '''畫圖拉 END''' 
 # print(str(sample_name_counts) + "//" + str(hierarchy))
 # print(sample_name)
 # print(sample_dict)   
 # print(taxa_dict)     
-
-      
+ 

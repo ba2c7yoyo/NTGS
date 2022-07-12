@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb  1 13:12:48 2022
-
 @author: ZHAOQI
 """
 import pandas as pd
 import matplotlib.pyplot as plt
-'''要記得的東西有:
+from matplotlib.colors import ListedColormap
+'''Tips:
     1.注意如果是Top20 會改成TOP19 因為顏色關係20與21會撞色
     2.分組情況最後幾行要處理-1,-2,-3,-4之類，倒數幾個要從這裡調整
     這檔案會一次自動出七個階層
+    3.Colormap 客製化在259行
 '''
-    
-    
+path = './fireant220710/'
+file_name = 'level-7.csv'  
+int_last_cloumn = -1 #倒數幾個要從這裡調整
+
 def single_dict (sample_names)   :  
     sum_sample_abundance = []
     a = 0
@@ -24,18 +27,15 @@ def single_dict (sample_names)   :
             sum_sample_abundance = [a + b for a, b in zip(sample_dict[each_sample]['counts'], sum_sample_abundance)]
         a+=1    
     return sum_sample_abundance
-path = './fire_ants/'
-file_name = 'level_7_fst48.csv'
-# file_name = 'level_7_fst48(sm).shared'
-# file_name = 'level_7_fst48(2).csv'
+
 sample_dict = {}
 #taxa_array = otu_id
 with open (path + file_name, 'r') as otu_abundances:
-    otu_id = otu_abundances.readline().split(',')[1:-4] #跳掉1, 倒數幾個要從這裡調整
+    otu_id = otu_abundances.readline().split(',')[1:int_last_cloumn] #跳掉1, 倒數幾個要從這裡調整
     otu_id[-1] = otu_id[-1].replace('\n','') #最後有換行符號
     for line in otu_abundances.readlines():                         
         sample_name = line.split(',')[0] #取樣本名
-        abundance = line.split(',')[1:-4] #跳掉1，倒數幾個要從這裡調整
+        abundance = line.split(',')[1:int_last_cloumn] #跳掉1，倒數幾個要從這裡調整
         abundance[-1] = abundance[-1].replace('\n','') #最後有換行符號
         abundance = [int(float(x)) for x in abundance] #把元素內的字串變成int
         sample_dict.update({
@@ -93,9 +93,9 @@ try:
     for i in range (sample_name_counts):
         sample_names.append(input("Sample Name (" + str(i+1) + "):"))
 except :
-    sample_name_counts = 48
+    sample_name_counts = 5
     sample_names = []
-    for i in range(48) :
+    for i in range(5) :
         sample_names.append(str(i+1))
     
 # hierarchy = int(input("Hierarchy :"))
@@ -256,20 +256,25 @@ for hierarchy in hierarchys :
         
     df=pd.DataFrame(plot_dict,index=sample_names)
     # custom_colors = "rgcbyrgcbyy"
-    
-    df.plot(kind="bar",stacked=True,figsize=(10,8), colormap= 'tab20')
-    level_legend = ['Kingdom',
-                    'Phylum',
-                    'Class',
-                    'Order',
-                    'Family',
-                    'Genus',
-                    'Species']
+    cmap = ListedColormap(["#D0D0D0", "#ff9694", "#2ca02c", "#ffbb78","#D0D0D0",
+                            "#c7c7c7","#ff7f0e","#D0D0D0","#D0D0D0","#dada8b",
+                            "#D0D0D0","#7f7f7f","#D0D0D0","#D0D0D0","#D0D0D0",
+                            "#D0D0D0","#D0D0D0","#9edae5","#e274c1","#D0D0D0",
+                            ])
+    # df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= 'tab20')
+    df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= cmap)
+    level_legend = ['Kingdom01',
+                    'Phylum02',
+                    'Class03',
+                    'Order04',
+                    'Family05',
+                    'Genus06',
+                    'Species07']
     plt.legend(loc="upper left",bbox_to_anchor=(1.05, 1.0), fontsize="x-large",title=level_legend[hierarchy],title_fontsize=16)
     plt.xlabel('Sample Name')
     plt.ylabel('Abundance (%)')
     
     # plt.legend(loc="upper left")
     Target_PNG_name = './' + Target_PNG_name
-    plt.savefig( Target_PNG_name +'_Top' + str(TOPTOP) + '_' + level_legend[hierarchy] + '.png' ,dpi=150,bbox_inches ='tight')
+    # plt.savefig( Target_PNG_name +'_Top' + str(TOPTOP) + '_' + level_legend[hierarchy] + '.png' ,dpi=150,bbox_inches ='tight')
     plt.show()

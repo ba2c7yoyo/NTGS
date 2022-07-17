@@ -47,15 +47,15 @@ In this example, you can set the ```int_last_cloumn = -4```, because there are 4
                             "#D0D0D0","#D0D0D0","#9edae5","#e274c1","#D0D0D0",
                             ])
 	df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= cmap)
+	
+	#df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= 'tab20')
+	#Remember to comment this line.
 
-	```
-And remember to comment this line :
-	``` python
-	df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= 'tab20')
 	```
 
 	- Save the figure automatically
 	Instead of copy the result on IDE plots window, you can uncomment this line to save the results automatically.
+	
 	 ``` python
 	 plt.savefig( Target_PNG_name +'_Top' + str(TOPTOP) + '_' + level_legend[hierarchy] + '.png',dpi=150,bbox_inches ='tight')
 	 ```

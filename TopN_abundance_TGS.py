@@ -8,9 +8,9 @@ from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
 
-path = './'
-file_name = 'fire_ant.opti_mcc_avg.shared'
-file_name_taxa = 'fire_ant.opti_mcc.0.01.cons.taxonomy'
+path = './examples/'
+file_name = 'opti_mcc_avg.shared'
+file_name_taxa = 'opti_mcc.0.01.cons.taxonomy'
 int_topN = 15 #決定TopN
 
 def single_dict (sample_name, hierarchy)   :  

@@ -12,9 +12,9 @@ from matplotlib.colors import ListedColormap
     這檔案會一次自動出七個階層
     3.Colormap 客製化在259行
 '''
-path = './fireant220710/'
+path = './examples/'
 file_name = 'level-7.csv'  
-int_last_cloumn = -1 #倒數幾個要從這裡調整
+int_last_cloumn = -4 #倒數幾個要從這裡調整
 
 def single_dict (sample_names)   :  
     sum_sample_abundance = []
@@ -261,8 +261,8 @@ for hierarchy in hierarchys :
                             "#D0D0D0","#7f7f7f","#D0D0D0","#D0D0D0","#D0D0D0",
                             "#D0D0D0","#D0D0D0","#9edae5","#e274c1","#D0D0D0",
                             ])
-    # df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= 'tab20')
-    df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= cmap)
+    df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= 'tab20')
+    # df.plot(kind="bar",stacked=True,figsize=(10,8), cmap= cmap)
     level_legend = ['Kingdom01',
                     'Phylum02',
                     'Class03',

@@ -2,26 +2,69 @@
 NTGS is a tool for NGS and TGS taxonomic composition result visualization. User only need to prepare the composition result (.csv) from EasyMAP (Qiime2, NGS) or Mothur (TGS) output file. This tool can plot the Top10 / Top20 in any taxonomic rank.
 
 ## 1-1 TopN abundance by NGS 
-### Top10_abundance_NGS.py
+### TopN_abundance_NGS.py
 
-- Import Package
+- Import / Install Package
 
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
+```bash
+pip install pandas matplotlib
 ```
 - Parameters
 
 ``` python
-path = './fireant220710/'
+path = './examples/'
 #The folder path
 
 file_name = 'level-7.csv'  
 #NGS composition result in level-7 (.csv) after classifier analysis.
 
-int_last_cloumn = -1 
+int_last_cloumn = -4 
 #The number of column you want to ignore. (Because there are some group information in EasyMAP output.)
+```
+- Example name list
+
+```bash
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+H_J
+H_J_01_03
+H_J_07_09
+H_J_13_15
+H_J_19_21
+H_J_P
+H_J_P_01_03
+H_J_P_07_09
+H_J_P_13_15
+H_J_P_19_21
+HFD
+HFD_01_03
+HFD_07_09
+HFD_13_15
+HFD_19_21
+ND
+ND_01_03
+ND_07_09
+ND_13_15
+ND_19_21
+```
+- Taxonomic Hierarchy
+
+```
+1 : Kingdom
+2 : Phylum
+3 : Class
+4 : Order
+5 : Family
+6 : Genus
+7 : Specices
 ```
 
 - Input file - NGS composition result (.csv)
@@ -61,33 +104,66 @@ In this example, you can set the ```int_last_cloumn = -4```, because there are 4
 	 ```
 
 ## 1-2 TopN abundance by TGS
-### Top10_abundance_TGS.py
+### TopN_abundance_TGS.py
 
-- Import Package
+- Import / Install Package
 
-```python
-import re
-from collections import Counter
-import pandas as pd
-import matplotlib.pyplot as plt
+```bash
+pip re collections pandas matplotlib
 ```
 
 - Parameters
 
 ```python
-path = './'
+path = './examples/'
 #The folder path
 
-file_name = 'fire_ant.opti_mcc.shared'  
+file_name = 'opti_mcc.shared'  
 #TGS composition result after classifier analysis.
 
-file_name_taxa = 'fire_ant.opti_mcc.0.01.cons.taxonomy'
+file_name_taxa = 'opti_mcc.0.01.cons.taxonomy'
 #TGS composition result after classifier analysis.
 
 int_topN = 15 
 #Range on Top2~20
 
 ```
+
+- Example name list
+
+```bash
+Dax_1
+Dax_2
+Dax_3
+Guan_1
+Guan_2
+Guan_3
+H50_1
+Hua_1
+Hua_2
+Hua_3
+San_1
+Zhu_1
+Zhu_2
+Zhu_3
+Z
+D
+H
+G
+```
+
+- Taxonomic Hierarchy
+
+```
+0 : Kingdom
+1 : Phylum
+2 : Class
+3 : Order
+4 : Family
+5 : Genus
+6 : Specices
+```
+
 - Input file 1 - TGS composition result (.shared)
 
 ![TGS_.shared](https://user-images.githubusercontent.com/81002817/179384401-4193b8c0-c73e-42c8-858d-ec78275fe759.png)
